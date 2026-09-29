@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Power BI Interview Arena | Power BI Interview Questions and DAX Concepts for Data Analysts</title>
+<meta name="description" content="Power BI interview questions and DAX concepts for data analysts in Pune, played as a five level game with live mentor led training resources.">
+<meta name="theme-color" content="#0d1230">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question","name": "What do Power BI interview questions usually test?","acceptedAnswer": {"@type": "Answer","text": "They test data modelling, DAX concepts, Power Query, dashboard design and your ability to explain a real Power BI project clearly."}},
+    {"@type": "Question","name": "What are the fundamental concepts of DAX?","acceptedAnswer": {"@type": "Answer","text": "Syntax and functions, row context, filter context and relationships between tables. CALCULATE ties them together by changing filter context."}},
+    {"@type": "Question","name": "How to crack a Power BI interview?","acceptedAnswer": {"@type": "Answer","text": "Build a small project from import to publishing, break it on purpose, fix it, and explain each decision aloud, ideally to a mentor."}},
+    {"@type": "Question","name": "Can Pune learners join live Power BI training?","acceptedAnswer": {"@type": "Answer","text": "Yes. JustAcademy classroom training runs in Mumbai and Pune learners join the same live interactive, instructor led sessions online."}}
+  ]
+}
+</script>
+<style>
+:root{
+  --ink:#0d1230; --panel:#151b45; --panel2:#1c2358; --line:rgba(255,255,255,.12);
+  --yellow:#f2c811; --pink:#ff5c8a; --cyan:#35e0d0; --white:#f6f7ff; --muted:#aab0d6;
+  --radius:20px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--ink);color:var(--white);line-height:1.65;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:26px 26px;pointer-events:none;z-index:0}
+a{color:inherit}
+img,svg{max-width:100%}
+.wrap{width:min(1160px,92%);margin:0 auto;position:relative;z-index:1}
+.px{font-family:'Press Start 2P','Courier New',monospace;letter-spacing:.5px}
+.mono{font-family:'JetBrains Mono',Consolas,monospace}
+
+/* XP bar */
+#xp{position:fixed;top:0;left:0;height:5px;width:0;background:linear-gradient(90deg,var(--yellow),var(--pink),var(--cyan));z-index:100}
+
+/* Header */
+header.top{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(13,18,48,.78);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand .logo{display:flex;gap:3px;align-items:flex-end;height:28px}
+.brand .logo i{display:block;width:8px;border-radius:2px;background:var(--yellow)}
+.brand .logo i:nth-child(1){height:12px}.brand .logo i:nth-child(2){height:20px;background:var(--pink)}.brand .logo i:nth-child(3){height:28px;background:var(--cyan)}
+.brand b{font-size:.62rem;line-height:1.5}
+nav ul{display:flex;gap:26px;list-style:none;align-items:center}
+nav a{text-decoration:none;color:var(--muted);font-weight:500;font-size:.95rem;transition:color .2s}
+nav a:hover{color:var(--yellow)}
+.btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:14px;padding:14px 24px;border:2px solid var(--yellow);transition:transform .2s,box-shadow .2s,background .2s;cursor:pointer;font-family:inherit;font-size:1rem}
+.btn.primary{background:var(--yellow);color:var(--ink);box-shadow:5px 5px 0 var(--pink)}
+.btn.primary:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--pink)}
+.btn.ghost{background:transparent;color:var(--yellow)}
+.btn.ghost:hover{background:rgba(242,200,17,.12);transform:translateY(-2px)}
+.btn.small{padding:9px 16px;font-size:.88rem}
+.burger{display:none;background:none;border:2px solid var(--line);color:var(--white);border-radius:10px;padding:8px 12px;font-size:1.1rem;cursor:pointer}
+
+/* Hero */
+.hero{padding:70px 0 40px}
+.hero .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.tag{display:inline-block;background:rgba(53,224,208,.14);color:var(--cyan);border:1px solid rgba(53,224,208,.4);border-radius:999px;padding:6px 16px;font-size:.85rem;font-weight:700;margin-bottom:22px}
+h1{font-size:clamp(2.1rem,5.2vw,3.9rem);line-height:1.08;font-weight:700;margin-bottom:22px}
+h1 em{font-style:normal;color:var(--yellow);position:relative;white-space:nowrap}
+h1 em::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:10px;background:var(--pink);opacity:.55;z-index:-1;transform:skew(-8deg)}
+.lead{color:var(--muted);font-size:1.15rem;max-width:56ch;margin-bottom:30px}
+.cta-row{display:flex;flex-wrap:wrap;gap:16px}
+
+/* Console */
+.console{background:var(--panel);border:2px solid var(--line);border-radius:var(--radius);box-shadow:0 30px 70px rgba(0,0,0,.45),10px 10px 0 rgba(255,92,138,.85);overflow:hidden;transform:rotate(1.5deg);transition:transform .4s}
+.console:hover{transform:rotate(0)}
+.console .bar{display:flex;gap:8px;padding:12px 16px;background:var(--panel2);align-items:center}
+.console .bar span{width:12px;height:12px;border-radius:50%;background:var(--pink)}
+.console .bar span:nth-child(2){background:var(--yellow)}.console .bar span:nth-child(3){background:var(--cyan)}
+.console .bar small{margin-left:auto;color:var(--muted);font-size:.72rem}
+.chart{display:flex;align-items:flex-end;gap:12px;height:170px;padding:22px 24px 0}
+.chart i{flex:1;background:linear-gradient(180deg,var(--yellow),#c99f00);border-radius:8px 8px 0 0;height:8%;animation:grow 1.4s cubic-bezier(.2,.9,.2,1) forwards}
+.chart i:nth-child(2){animation-delay:.1s;background:linear-gradient(180deg,var(--pink),#c13560)}
+.chart i:nth-child(3){animation-delay:.2s}
+.chart i:nth-child(4){animation-delay:.3s;background:linear-gradient(180deg,var(--cyan),#1e9d92)}
+.chart i:nth-child(5){animation-delay:.4s}
+.chart i:nth-child(6){animation-delay:.5s;background:linear-gradient(180deg,var(--pink),#c13560)}
+.chart i:nth-child(7){animation-delay:.6s}
+@keyframes grow{to{height:var(--h)}}
+.console pre{padding:16px 24px 24px;font-size:.86rem;color:#d9defc;overflow-x:auto;line-height:1.7}
+.k{color:var(--pink)}.f{color:var(--cyan)}.s{color:var(--yellow)}
+
+/* Ticker */
+.ticker{margin:50px 0 10px;border-block:2px solid var(--line);background:var(--panel);overflow:hidden;position:relative;z-index:1}
+.ticker div{display:flex;gap:48px;width:max-content;padding:14px 0;animation:slide 38s linear infinite}
+.ticker span{font-size:.62rem;color:var(--yellow);white-space:nowrap}
+.ticker span::after{content:"\2726";margin-left:48px;color:var(--pink)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* Sections */
+section{padding:84px 0}
+.eyebrow{color:var(--pink);font-size:.62rem;margin-bottom:16px;display:block}
+h2{font-size:clamp(1.7rem,3.6vw,2.6rem);line-height:1.15;margin-bottom:16px}
+.sub{color:var(--muted);max-width:64ch;margin-bottom:44px;font-size:1.05rem}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.stat{background:var(--panel);border:2px solid var(--line);border-radius:var(--radius);padding:26px 20px;text-align:center}
+.stat b{display:block;font-size:2.3rem;color:var(--yellow);font-family:'Press Start 2P',monospace;margin-bottom:12px}
+.stat span{color:var(--muted);font-size:.95rem}
+
+/* Levels */
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:22px}
+.level{background:var(--panel);border:2px solid var(--line);border-radius:var(--radius);padding:28px;position:relative;transition:transform .25s,border-color .25s}
+.level:hover{transform:translateY(-6px);border-color:var(--yellow)}
+.lvl{position:absolute;top:-16px;left:22px;background:var(--yellow);color:var(--ink);font-size:.6rem;padding:9px 12px;border-radius:8px;box-shadow:3px 3px 0 var(--pink)}
+.level h3{margin:14px 0 8px;font-size:1.3rem}
+.level p.t{color:var(--muted);margin-bottom:16px;font-size:.96rem}
+details{border-top:1px dashed var(--line);padding:12px 0}
+summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px;font-size:.96rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--cyan);font-size:1.3rem;line-height:1}
+details[open] summary::after{content:"\2212"}
+details p{color:var(--muted);margin-top:10px;font-size:.93rem}
+
+/* DAX lab */
+.lab{background:linear-gradient(135deg,var(--panel),var(--panel2));border-block:2px solid var(--line)}
+.snips{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:22px}
+.snip{background:#0a0e28;border:2px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.snip header{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:rgba(255,255,255,.05);font-weight:700;font-size:.95rem}
+.copy{background:transparent;border:1px solid var(--cyan);color:var(--cyan);border-radius:8px;padding:5px 12px;cursor:pointer;font-family:inherit;font-size:.8rem}
+.copy:hover{background:var(--cyan);color:var(--ink)}
+.snip pre{padding:18px;font-size:.84rem;overflow-x:auto;color:#d9defc;line-height:1.7}
+.snip p{padding:0 18px 18px;color:var(--muted);font-size:.9rem}
+
+/* Bosses */
+.bosses{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.boss{background:var(--panel);border-radius:var(--radius);padding:26px;border:2px solid var(--line);position:relative;overflow:hidden}
+.boss::before{content:"";position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:var(--c,var(--pink));opacity:.22}
+.boss .e{font-size:2rem;display:block;margin-bottom:10px}
+.boss h3{margin-bottom:8px}
+.boss p{color:var(--muted);font-size:.94rem}
+
+/* Cards for links */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+.card{display:flex;flex-direction:column;background:var(--panel);border:2px solid var(--line);border-radius:var(--radius);padding:26px;text-decoration:none;transition:transform .25s,box-shadow .25s,border-color .25s}
+.card:hover{transform:translate(-3px,-5px);border-color:var(--c,var(--yellow));box-shadow:8px 8px 0 var(--c,var(--yellow))}
+.card .badge{align-self:flex-start;font-size:.55rem;padding:8px 10px;border-radius:8px;background:var(--c,var(--yellow));color:var(--ink);margin-bottom:16px}
+.card h3{font-size:1.15rem;margin-bottom:10px}
+.card p{color:var(--muted);font-size:.93rem;flex:1}
+.card .go{margin-top:18px;font-weight:700;color:var(--c,var(--yellow))}
+
+/* Live band */
+.band{background:var(--yellow);color:var(--ink);border-radius:28px;padding:48px;display:grid;grid-template-columns:1.3fr .7fr;gap:30px;align-items:center;box-shadow:12px 12px 0 var(--pink)}
+.band h2{margin-bottom:12px}
+.band p{max-width:58ch}
+.band .btn{background:var(--ink);color:var(--yellow);border-color:var(--ink);box-shadow:5px 5px 0 var(--pink)}
+.band .btn:hover{transform:translate(-2px,-2px)}
+.band .col{display:flex;flex-direction:column;gap:14px}
+
+/* Footer */
+footer{background:#080b22;border-top:2px solid var(--line);padding:60px 0 30px;margin-top:40px;position:relative;z-index:1}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px}
+footer h4{font-size:.62rem;color:var(--yellow);margin-bottom:18px}
+footer ul{list-style:none}
+footer li{margin-bottom:10px}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--cyan)}
+footer .copy-line{margin-top:40px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.86rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+/* Reveal */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s,transform .7s}
+.rv.in{opacity:1;transform:none}
+
+@media (max-width:920px){
+  .hero .grid,.band,.fgrid{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .console{transform:none}
+  nav ul{position:absolute;top:100%;left:0;right:0;background:var(--ink);flex-direction:column;padding:20px;border-bottom:1px solid var(--line);display:none;gap:16px}
+  nav ul.open{display:flex}
+  .burger{display:block}
+  .band{padding:32px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .chart i{height:var(--h)}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div id="xp"></div>
+
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Power BI Interview Arena home">
+      <span class="logo"><i></i><i></i><i></i></span>
+      <b class="px">POWER BI<br>INTERVIEW ARENA</b>
+    </a>
+    <nav>
+      <button class="burger" id="burger" aria-label="Open menu">Menu</button>
+      <ul id="menu">
+        <li><a href="#levels">Levels</a></li>
+        <li><a href="#dax">DAX Lab</a></li>
+        <li><a href="#bosses">Boss Fights</a></li>
+        <li><a href="#powerups">Power Ups</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="btn primary small" href="https://www.justacademy.co/register-for-course-demo">Free Demo</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap grid">
+    <div>
+      <span class="tag">Made for data analysts in Pune</span>
+      <h1>Crack the Power BI interview, one <em>level</em> at a time.</h1>
+      <p class="lead">Power BI interview questions and DAX concepts, played like a game. Five levels, real answers in plain language, a DAX lab you can copy from, and boss fights built from actual project scenarios.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#levels">Start Level 1</a>
+        <a class="btn ghost" href="https://www.justacademy.co/blog-detail/power-bi-interview-questions-and-dax-concepts-for-data-analysts">Read the full question guide</a>
+      </div>
+    </div>
+    <div class="console rv" aria-hidden="true">
+      <div class="bar"><span></span><span></span><span></span><small class="mono">measures.dax</small></div>
+      <div class="chart">
+        <i style="--h:38%"></i><i style="--h:62%"></i><i style="--h:48%"></i><i style="--h:84%"></i><i style="--h:70%"></i><i style="--h:96%"></i><i style="--h:78%"></i>
+      </div>
+<pre class="mono"><span class="f">Sales YTD</span> =
+<span class="f">TOTALYTD</span>(
+  <span class="f">SUM</span>( Sales[Amount] ),
+  <span class="s">'Date'[Date]</span>
+)
+<span class="k">// Same formula. New context.</span></pre>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true"><div>
+  <span class="px">POWER BI INTERVIEW QUESTIONS</span><span class="px">DAX CONCEPTS</span><span class="px">DATA MODELLING</span><span class="px">POWER QUERY</span><span class="px">BI DASHBOARD</span><span class="px">LIVE INTERACTIVE SESSIONS</span><span class="px">MENTOR LED</span><span class="px">DATA ANALYTICS</span>
+  <span class="px">POWER BI INTERVIEW QUESTIONS</span><span class="px">DAX CONCEPTS</span><span class="px">DATA MODELLING</span><span class="px">POWER QUERY</span><span class="px">BI DASHBOARD</span><span class="px">LIVE INTERACTIVE SESSIONS</span><span class="px">MENTOR LED</span><span class="px">DATA ANALYTICS</span>
+</div></div>
+
+<section>
+  <div class="wrap">
+    <div class="stats rv">
+      <div class="stat"><b data-n="5">0</b><span>Levels from basics to boss fights</span></div>
+      <div class="stat"><b data-n="40">0</b><span>Interview questions in the full guide</span></div>
+      <div class="stat"><b data-n="14">0</b><span>Day preparation plan</span></div>
+      <div class="stat"><b data-n="100">0</b><span>Percent live, mentor led practice</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="levels">
+  <div class="wrap">
+    <span class="eyebrow px">SELECT YOUR LEVEL</span>
+    <h2>Five levels every Power BI panel walks through</h2>
+    <p class="sub">Tap a question to reveal a short, interview ready answer. Use them as a starting point, then rebuild each one in your own words from a project you have actually made.</p>
+    <div class="levels">
+      <article class="level rv">
+        <span class="lvl px">LVL 1</span>
+        <h3>Power BI Basics</h3>
+        <p class="t">The warm up. Sound clear, sound curious.</p>
+        <details><summary>What is Power BI?</summary><p>A Microsoft business intelligence platform that connects to data, cleans it, models it, calculates measures and publishes interactive reports through Desktop and the online Service.</p></details>
+        <details><summary>Desktop versus Service?</summary><p>Desktop is where you build models and reports. The Service is where you publish, schedule refreshes, share, secure and collaborate.</p></details>
+        <details><summary>Import or DirectQuery?</summary><p>Import is fast and fully featured but as fresh as the last refresh. DirectQuery keeps data at the source for freshness or size, at the cost of speed.</p></details>
+      </article>
+      <article class="level rv">
+        <span class="lvl px">LVL 2</span>
+        <h3>Data Modelling</h3>
+        <p class="t">Where freshers and professionals separate.</p>
+        <details><summary>Why a star schema?</summary><p>One fact table surrounded by dimension tables keeps filters predictable, DAX simple and the model compact and quick.</p></details>
+        <details><summary>Column or measure?</summary><p>Columns are stored per row and used for slicing. Measures are calculated live from filter context and are used for aggregations.</p></details>
+        <details><summary>Why a date table?</summary><p>Time intelligence needs a continuous calendar marked as the date table, otherwise year to date and previous year results go wrong.</p></details>
+      </article>
+      <article class="level rv">
+        <span class="lvl px">LVL 3</span>
+        <h3>DAX Concepts</h3>
+        <p class="t">The language of context. Explain, do not recite.</p>
+        <details><summary>Row context versus filter context?</summary><p>Row context evaluates one row at a time. Filter context is the set of filters from slicers, visuals and other measures that decides which rows a calculation sees.</p></details>
+        <details><summary>What does CALCULATE do?</summary><p>It evaluates an expression after modifying the filter context, and it triggers context transition when used inside a row context.</p></details>
+        <details><summary>SUM or SUMX?</summary><p>SUM adds one column. SUMX iterates a table row by row, evaluates an expression for each row, then adds the results.</p></details>
+      </article>
+      <article class="level rv">
+        <span class="lvl px">LVL 4</span>
+        <h3>Power Query and Cloud</h3>
+        <p class="t">The unglamorous knowledge that saves reports.</p>
+        <details><summary>Merge versus Append?</summary><p>Append stacks tables vertically. Merge joins tables side by side on matching keys, like a database join.</p></details>
+        <details><summary>What is query folding?</summary><p>Transformation steps are pushed to the source as one native query, so the database does the work and refresh stays fast.</p></details>
+        <details><summary>Why a gateway?</summary><p>It lets the online Service securely reach on premises data so scheduled refresh can run.</p></details>
+      </article>
+      <article class="level rv">
+        <span class="lvl px">LVL 5</span>
+        <h3>Dashboards and Scenarios</h3>
+        <p class="t">Tell the story behind the visuals.</p>
+        <details><summary>What makes a good dashboard?</summary><p>It answers one question for one audience in seconds, uses restrained colour, honest chart types and interaction that rewards curiosity.</p></details>
+        <details><summary>Tool choice between BI tools?</summary><p>Decide by team skills, existing stack, data volume and budget, not loyalty. Naming trade offs sounds more senior than naming a winner.</p></details>
+        <details><summary>Walk me through your project.</summary><p>Problem, messy data, model, two or three measures you are proud of, the insight, one mistake you fixed. Keep it under three minutes.</p></details>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="dax" class="lab">
+  <div class="wrap">
+    <span class="eyebrow px">THE DAX LAB</span>
+    <h2>Five measures worth knowing by heart</h2>
+    <p class="sub">Interviewers love these patterns because each one reveals how you think about context. Copy them into a practice model and change one thing at a time.</p>
+    <div class="snips">
+      <div class="snip rv"><header>Total Sales <button class="copy">Copy</button></header><pre class="mono"><code>Total Sales =
+SUMX( Sales, Sales[Qty] * Sales[Price] )</code></pre><p>An iterator, because quantity times price does not exist as a column.</p></div>
+      <div class="snip rv"><header>Sales Last Year <button class="copy">Copy</button></header><pre class="mono"><code>Sales LY =
+CALCULATE( [Total Sales],
+  SAMEPERIODLASTYEAR( 'Date'[Date] ) )</code></pre><p>Needs a proper, continuous date table marked as the calendar.</p></div>
+      <div class="snip rv"><header>Share of Total <button class="copy">Copy</button></header><pre class="mono"><code>Share % =
+DIVIDE( [Total Sales],
+  CALCULATE( [Total Sales], REMOVEFILTERS( Product ) ) )</code></pre><p>The denominator ignores product filters. DIVIDE handles zero safely.</p></div>
+      <div class="snip rv"><header>Growth with Variables <button class="copy">Copy</button></header><pre class="mono"><code>Growth % =
+VAR Curr = [Total Sales]
+VAR Prev = [Sales LY]
+RETURN DIVIDE( Curr - Prev, Prev )</code></pre><p>Variables make formulas readable, faster and easier to debug.</p></div>
+      <div class="snip rv"><header>Top Products <button class="copy">Copy</button></header><pre class="mono"><code>Product Rank =
+RANKX( ALL( Product[Name] ),
+  [Total Sales], , DESC, Dense )</code></pre><p>ALL widens the field of competitors so the rank ignores current filters.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="bosses">
+  <div class="wrap">
+    <span class="eyebrow px">BOSS FIGHTS</span>
+    <h2>Scenario questions that decide the offer</h2>
+    <p class="sub">Panels stop asking definitions and hand you a business problem. Here is how to approach the four that appear most often.</p>
+    <div class="bosses">
+      <div class="boss rv" style="--c:var(--pink)"><span class="e">&#128202;</span><h3>The Project Office</h3><p>Build a project management dashboard: portfolio page for leaders, drillthrough for managers, budget variance, overdue tasks and row level security.</p></div>
+      <div class="boss rv" style="--c:var(--cyan)"><span class="e">&#128227;</span><h3>The Campaign Mess</h3><p>Marketing data analytics across channels: cost per lead, conversion rate, return on ad spend, and honest notes about attribution limits.</p></div>
+      <div class="boss rv" style="--c:var(--yellow)"><span class="e">&#128241;</span><h3>The App Funnel</h3><p>Product analytics from event data: active users, retention cohorts, funnel drop off and feature adoption on a compact star model.</p></div>
+      <div class="boss rv" style="--c:var(--pink)"><span class="e">&#128012;</span><h3>The Slow Report</h3><p>Tens of millions of rows and a sluggish page. Trim columns, aggregate, fix relationships, then measure with Performance Analyzer.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="powerups">
+  <div class="wrap">
+    <span class="eyebrow px">POWER UPS</span>
+    <h2>Live, mentor led training for Pune learners</h2>
+    <p class="sub">JustAcademy classroom training runs in Mumbai, and learners in Pune join the same live interactive, instructor led sessions online, with mentors, projects and placement support.</p>
+    <div class="cards">
+      <a class="card rv" style="--c:var(--yellow)" href="https://www.justacademy.co/course-detail/pune/microsoft-power-bi-training-in-pune"><span class="badge px">COURSE</span><h3>Microsoft Power BI Training in Pune</h3><p>Live mentor led classes that take you from data import to published, secure, interactive dashboards.</p><span class="go">Explore the course &rarr;</span></a>
+      <a class="card rv" style="--c:var(--cyan)" href="https://www.justacademy.co/course-detail/pune/tableau-training-in-pune"><span class="badge px">COURSE</span><h3>Tableau Training in Pune</h3><p>Add a second visualisation tool to your profile and widen the roles you can apply for.</p><span class="go">Explore the course &rarr;</span></a>
+      <a class="card rv" style="--c:var(--pink)" href="https://www.justacademy.co/job-bootcamp-detail/pune/data-analytics-course-in-pune-online-interactive-training-with-real-world-projects"><span class="badge px">BOOTCAMP</span><h3>Data Analytics Bootcamp in Pune</h3><p>Online interactive training with real world projects across SQL, Excel, Power BI and Python.</p><span class="go">See the bootcamp &rarr;</span></a>
+      <a class="card rv" style="--c:var(--yellow)" href="https://www.justacademy.co/job-bootcamp-detail/pune/mern-stack-developer-course-in-pune-startup-product-development-training"><span class="badge px">BOOTCAMP</span><h3>MERN Stack Developer Bootcamp in Pune</h3><p>For analysts who also want to build the web apps that data products live inside.</p><span class="go">See the bootcamp &rarr;</span></a>
+    </div>
+
+    <h2 style="margin-top:70px">Side quests: read before you level up</h2>
+    <div class="cards" style="margin-top:26px">
+      <a class="card rv" style="--c:var(--cyan)" href="https://www.justacademy.co/blog-detail/power-bi-interview-questions-and-dax-concepts-for-data-analysts"><span class="badge px">GUIDE</span><h3>Power BI Interview Questions and DAX Concepts</h3><p>The complete question guide behind this arena, with detailed answers and a prep plan.</p><span class="go">Read the guide &rarr;</span></a>
+      <a class="card rv" style="--c:var(--pink)" href="https://www.justacademy.co/blog-detail/power-bi-vs-tableau-which-data-visualization-tool-should-you-learn-in-2026"><span class="badge px">COMPARE</span><h3>Power BI vs Tableau in 2026</h3><p>Which data visualisation tool deserves your time first, and why the answer depends on you.</p><span class="go">Read the comparison &rarr;</span></a>
+      <a class="card rv" style="--c:var(--yellow)" href="https://www.justacademy.co/blog-detail/power-bi-developer-roadmap-2026-skills-required-to-become-a-data-analyst"><span class="badge px">ROADMAP</span><h3>Power BI Developer Roadmap for 2026</h3><p>The skills to learn, in order, on the way to becoming a confident data analyst.</p><span class="go">Read the roadmap &rarr;</span></a>
+      <a class="card rv" style="--c:var(--cyan)" href="https://www.justacademy.co/blog-detail/10-tableau-dashboard-projects-for-beginners-to-build-a-strong-portfolio"><span class="badge px">PORTFOLIO</span><h3>10 Dashboard Projects for Beginners</h3><p>Project ideas you can recreate in Power BI to build a portfolio that panels remember.</p><span class="go">Read the projects &rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <span class="eyebrow px">QUICK ANSWERS</span>
+    <h2>Questions people ask before an interview</h2>
+    <p class="sub">Short, direct answers for readers and for search assistants.</p>
+    <div style="max-width:820px">
+      <details><summary>What do Power BI interview questions usually test?</summary><p>Data modelling, DAX concepts, Power Query, dashboard design and your ability to explain a real Power BI project clearly and honestly.</p></details>
+      <details><summary>What are the fundamental concepts of DAX?</summary><p>Syntax and functions, row context, filter context and relationships between tables. CALCULATE ties them together by changing filter context.</p></details>
+      <details><summary>How do I crack a Power BI interview?</summary><p>Build a small project from import to publishing, break it on purpose, fix it, and explain each decision aloud, ideally to a mentor who interrupts.</p></details>
+      <details><summary>Can Pune learners join live Power BI training?</summary><p>Yes. Classroom training runs at the Mumbai campus, and Pune learners join the same live interactive, instructor led sessions online, with placement support.</p></details>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:20px">
+  <div class="wrap">
+    <div class="band rv">
+      <div>
+        <h2>Ready to practise with a mentor in the room?</h2>
+        <p>Sit in one live interactive session, ask your messiest DAX question, and see how mentor led learning feels before you decide anything.</p>
+      </div>
+      <div class="col">
+        <a class="btn" href="https://www.justacademy.co/register-for-course-demo">Book a free demo</a>
+        <a class="btn" href="https://www.justacademy.co/download-general-brochure">Download the brochure</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="brand" href="#top"><span class="logo"><i></i><i></i><i></i></span><b class="px">POWER BI<br>INTERVIEW ARENA</b></a>
+        <p style="color:var(--muted);margin-top:18px;max-width:38ch">Power BI interview questions and DAX concepts for data analysts, with live mentor led training resources from JustAcademy, an ISO certified institute.</p>
+      </div>
+      <div>
+        <h4 class="px">TRAINING</h4>
+        <ul>
+          <li><a href="https://www.justacademy.co/course-detail/pune/microsoft-power-bi-training-in-pune">Power BI Training in Pune</a></li>
+          <li><a href="https://www.justacademy.co/course-detail/pune/tableau-training-in-pune">Tableau Training in Pune</a></li>
+          <li><a href="https://www.justacademy.co/job-bootcamp-detail/pune/data-analytics-course-in-pune-online-interactive-training-with-real-world-projects">Data Analytics Bootcamp</a></li>
+          <li><a href="https://www.justacademy.co/job-bootcamp-detail/pune/mern-stack-developer-course-in-pune-startup-product-development-training">MERN Stack Bootcamp</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="px">READING</h4>
+        <ul>
+          <li><a href="https://www.justacademy.co/blog-detail/power-bi-interview-questions-and-dax-concepts-for-data-analysts">Interview Questions Guide</a></li>
+          <li><a href="https://www.justacademy.co/blog-detail/power-bi-vs-tableau-which-data-visualization-tool-should-you-learn-in-2026">Power BI vs Tableau</a></li>
+          <li><a href="https://www.justacademy.co/blog-detail/power-bi-developer-roadmap-2026-skills-required-to-become-a-data-analyst">Developer Roadmap 2026</a></li>
+          <li><a href="https://www.justacademy.co/blog-detail/10-tableau-dashboard-projects-for-beginners-to-build-a-strong-portfolio">Dashboard Projects</a></li>
+          <li><a href="https://www.justacademy.co/register-for-course-demo">Free Demo</a></li>
+          <li><a href="https://www.justacademy.co/download-general-brochure">Brochure</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copy-line"><span>Built for Pune data analysts. Classroom training in Mumbai, live online training everywhere.</span><span>Game on.</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var xp=document.getElementById('xp');
+  function prog(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;xp.style.width=p+'%'}
+  window.addEventListener('scroll',prog,{passive:true});prog();
+
+  var b=document.getElementById('burger'),m=document.getElementById('menu');
+  b.addEventListener('click',function(){m.classList.toggle('open')});
+  m.addEventListener('click',function(e){if(e.target.tagName==='A')m.classList.remove('open')});
+
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+
+  var co=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(!e.isIntersecting)return;var el=e.target,n=+el.dataset.n,c=0,step=Math.max(1,Math.ceil(n/40));
+    var t=setInterval(function(){c+=step;if(c>=n){c=n;clearInterval(t)}el.textContent=c+(n===100?'%':'')},35);
+    co.unobserve(el)})},{threshold:.6});
+  document.querySelectorAll('[data-n]').forEach(function(el){co.observe(el)});
+
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var code=btn.closest('.snip').querySelector('code').innerText;
+      var done=function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy'},1400)};
+      if(navigator.clipboard){navigator.clipboard.writeText(code).then(done)}else{done()}
+    });
+  });
+})();
+</script>
+</body>
+</html>
